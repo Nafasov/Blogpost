@@ -1,0 +1,9 @@
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <div class="genric-btn success circle">{{ message }}</div>
+        {% elif message.tags == 'error' %}
+            <div class="genric-btn danger circle">{{ message }}</div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
