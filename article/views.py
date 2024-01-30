@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 
 
-from .models import Article, Tags, Category
+from .models import Article, Tags, Category, Comment
 from .forms import CommentForm
 
 
@@ -33,11 +33,14 @@ def article_detail_view(request, slug, *args, **kwargs):
     article = Article.objects.get(slug=slug)
     tags = Tags.objects.order_by("-id")
     categories = Category.objects.order_by("-id")
+    comments = Comment.objects.filter(article_id=article.id, top_level_comment_id__isnull=True)
+    cid = request.GET.get('cid')
     if request.method == "POST":
         comment = CommentForm(request.POST, request.FILES)
         if comment.is_valid():
             comment = comment.save(commit=False)
             comment.article = article
+            comment.parent_id = cid
             comment.save()
             messages.success(request, 'Comment sent successfully!')
             return redirect(".")
@@ -52,6 +55,7 @@ def article_detail_view(request, slug, *args, **kwargs):
         'form': form,
         'next': next,
         'previous': previous,
+        'comments': comments,
     }
     return render(request, 'article/single-blog.html', context)
 

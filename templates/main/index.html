@@ -41,9 +41,29 @@
             <div class="row">
                 <div class="col-lg-12">
                     {% for object in footer_article %}
-
-                        <div class="single_feature_post post_1">
-                            {% if forloop.counter|divisibleby:2 %}
+                        {% if forloop.counter|divisibleby:2 %}
+                            <div class="single_feature_post post_1 d-block d-sm-none d-lg-block">
+                                <div class="post_text_1 pl_pr_30">
+                                    <h5>{{ object.category }}</h5>
+                                    <a href="{% url 'article:article_detail' object.slug %}">
+                                        <h3></h3>
+                                    </a>
+                                    <p><span> By {{ object.author.name }}</span>
+                                        / {{ object.created_date|date:'F, d, Y' }}</p>
+                                    <div class="post_icon">
+                                        <ul>
+                                            <li><i class="ti-comment"></i>{{ object.comment_set.count }} Comment
+                                            </li>
+                                            <li><i class="ti-heart"></i>0 Like</li>
+                                            <li><i class="ti-export"></i>Share</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <img src="{{ object.image.url }}" alt>
+                            </div>
+                        {% else %}
+                            <div class="single_feature_post post_1">
+                                <img src="{{ object.image.url }}" alt>
                                 <div class="post_text_1 pr_30">
                                     <h5>{{ object.category }}</h5>
                                     <a href="{% url 'article:article_detail' object.slug %}">
@@ -59,27 +79,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <img src="{{ object.image.url }}" alt>
-                            {% else %}
-                                <img src="{{ object.image.url }}" alt>
-                                <div class="post_text_1 pr_30">
-                                    <h5>{{ object.category }}</h5>
-                                    <a href="{% url 'article:article_detail' object.slug %}">
-                                        <h3>{{ object.title|safe|slice:"60" }}</h3>
-                                    </a>
-                                    <p><span> By {{ object.author.name }}</span>
-                                        / {{ object.created_date|date:'F, d, Y' }}</p>
-                                    <div class="post_icon">
-                                        <ul>
-                                            <li><i class="ti-comment"></i>{{ object.comment_set.count }} Comment</li>
-                                            <li><i class="ti-heart"></i>0 Like</li>
-                                            <li><i class="ti-export"></i>Share</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        </div>
-
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>

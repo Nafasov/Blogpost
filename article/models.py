@@ -50,7 +50,10 @@ class Content(models.Model):
 
 
 class Comment(models.Model):
+
     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    top_level_comment_id = models.IntegerField(null=True, blank=True)
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to='articles/comment', null=True, blank=True)
     massage = models.TextField()
@@ -58,6 +61,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def children(self):
+        if not self.parent:
+            return Comment.objects.filter(top_level_comment_id=self.id)
+        return None
 
     def get_image(self):
         if self.image:
@@ -73,4 +82,13 @@ def pre_save_article(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_article, sender=Article)
 
 
+def pre_save_comments(sender, instance, *args, **kwargs):
+    if instance.parent:
+        if instance.parent.top_level_comment_id:
+            instance.top_level_comment_id = instance.parent.top_level_comment_id
+        else:
+            instance.top_level_comment_id = instance.parent.id
+
+
+pre_save.connect(pre_save_comments, sender=Comment)
 

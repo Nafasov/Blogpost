@@ -48,9 +48,10 @@ class TagsAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'article', 'name', 'get_image', 'created_date')
+    list_display = ('id', 'article', 'name', 'top_level_comment_id', 'get_image', 'created_date')
     search_fields = ('name', )
     list_per_page = 7
+
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
