@@ -27,7 +27,7 @@
                 <div class="col-lg-8 posts-list">
                     <div class="single-post">
                         <div class="feature-img">
-                            <img class="img-fluid" src="{{ object.image.url }}" alt>
+                            <img width="700px" class="img-fluid" src="{{ object.image.url }}" alt>
                         </div>
                         <div class="blog_details">
                             <h2>{{ object.title }}</h2>
@@ -75,7 +75,7 @@
 
                                         <div class="thumb">
                                             <a href="{% url 'article:article_detail' previous.slug %}">
-                                                <img class="img-fluid" src="{{ previous.image.url }}" alt>
+                                                <img width="80px" class="img-fluid" src="{{ previous.image.url }}" alt>
                                             </a>
                                         </div>
                                         <div class="arrow">
@@ -107,7 +107,7 @@
                                         </div>
                                         <div class="thumb">
                                             <a href="{% url 'article:article_detail' next.slug %}">
-                                                <img class="img-fluid" src="{{ next.image.url }}" alt>
+                                                <img width="80px" class="img-fluid" src="{{ next.image.url }}" alt>
                                             </a>
                                         </div>
                                     {% endif %}
@@ -142,9 +142,9 @@
                                     <div class="user justify-content-between d-flex">
                                         <div class="thumb">
                                             {% if comment.image %}
-                                                <img height="70px" width="70px" src="{{ comment.image.url }}">
+                                                <img width="20px" src="{{ comment.image.url }}">
                                             {% else %}
-                                                <img height="70px" width="70px" src="{% static 'img/user (1).png' %}">
+                                                <img width="20px" src="{% static 'img/user (1).png' %}">
                                             {% endif %}
                                         </div>
                                         <div class="desc">
@@ -176,9 +176,9 @@
                                             <div class="user justify-content-between d-flex">
                                                 <div class="thumb">
                                                     {% if child.image %}
-                                                        <img src="{{ child.image.url }}">
+                                                        <img width="10px" src="{{ child.image.url }}">
                                                     {% else %}
-                                                        <img src="{% static 'img/user (1).png' %}">
+                                                        <img width="10px" src="{% static 'img/user (1).png' %}">
                                                     {% endif %}
                                                 </div>
                                                 <div class="desc">

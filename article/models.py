@@ -91,4 +91,3 @@ def pre_save_comments(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_comments, sender=Comment)
-

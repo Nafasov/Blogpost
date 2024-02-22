@@ -31,3 +31,4 @@ class CommentForm(forms.ModelForm):
             'cols': 30,
 
         })
+

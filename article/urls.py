@@ -15,4 +15,5 @@ urlpatterns = [
     path('detail/<slug:slug>/', article_detail_view, name='article_detail'),
     path('element/daren/', element_view, name='element_l'),
     path('category/list/', category_view, name='category')
+
 ]
