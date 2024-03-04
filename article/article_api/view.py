@@ -1,3 +1,5 @@
+from django.core.paginator import Paginator
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -9,17 +11,25 @@ from article.models import Article, Category, Tags
 
 @api_view(['GET'])
 def article_list_api_view(request, *args, **kwargs):
-    articles = Article.objects.all().order_by('-id')
     tags = Tags.objects.all()
     categories = Category.objects.all()
+    articles = Article.objects.all().order_by('-id')
+    q = request.GET.get('q')
+    if q:
+        q = Q(title__icontains=q)
+        articles = articles.filter(q).order_by('-id')
+    paginator = Paginator(articles, 6)
+    page = request.GET.get('page')
+    articles = paginator.get_page(page)
     tags_serializer = TagSerializer(tags, many=True)
     categories_serializer = CategorySerializer(categories, many=True)
     article_serializer = ArticleSerializer(articles, many=True)
     context = {
-        'categories_serializer': categories_serializer,
-        'article_serializer': article_serializer,
+        'article_serializer': article_serializer.data,
+        'categories_serializer': categories_serializer.data,
+        'tags_serializer': tags_serializer.data
     }
-    return Response(article_serializer.data)
+    return Response(context)
 
 
 @api_view(['GET'])
