@@ -1,13 +1,13 @@
 
 from rest_framework import serializers
 
-from article.models import Article, Tags, Category, Comment, Content
+from article.models import Article, Tags, Category, Comment, Content, Author
 
 
-class ArticleSerializer(serializers.ModelSerializer):
+class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Article
-        fields = ['id', 'author', 'title', 'tags', 'category', 'image', 'modified_date', 'created_date']
+        model = Author
+        fields = ['id', 'name', 'image', 'bio']
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -32,3 +32,18 @@ class ContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Content
         fields = ['id', 'article', 'content', 'is_quotes']
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+    tags = TagSerializer(read_only=True, many=True)
+    category = CategorySerializer(read_only=True)
+    content = ContentSerializer(read_only=True, many=True)
+    comments = CommentSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Article
+        fields = ['id', 'author', 'title', 'content', 'tags', 'category', 'image', 'modified_date', 'created_date']
+
+
+

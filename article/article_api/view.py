@@ -51,7 +51,7 @@ def article_detail_api_view(request, *args, **kwargs):
     content_serializer = ContentSerializer(content, many=True)
     context = {
         'article_serializer': article_serializer.data,
-        'content_serializer': content_serializer.data,
-        'comments_serializer': comments_serializer.data
+        # 'content_serializer': content_serializer.data,
+        # 'comments_serializer': comments_serializer.data
     }
     return Response(context)
