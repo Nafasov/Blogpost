@@ -29,6 +29,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class ContentSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Content
         fields = ['id', 'article', 'content', 'is_quotes']
@@ -38,12 +39,18 @@ class ArticleSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     tags = TagSerializer(read_only=True, many=True)
     category = CategorySerializer(read_only=True)
-    content = ContentSerializer(read_only=True, many=True)
+    contents = ContentSerializer(read_only=True, many=True)
     comments = CommentSerializer(read_only=True, many=True)
 
     class Meta:
         model = Article
-        fields = ['id', 'author', 'title', 'content', 'tags', 'category', 'image', 'modified_date', 'created_date']
+        fields = ['id', 'author', 'title', 'contents', 'tags', 'category', 'image', 'comments', 'modified_date', 'created_date']
 
 
+class ArticlePostSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+
+    class Meta:
+        model = Article
+        fields = ['id', 'author', 'title', 'tags', 'category', 'image', 'comments', 'modified_date', 'created_date']
 

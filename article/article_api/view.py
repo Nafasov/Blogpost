@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 
-from .serializers import ArticleSerializer, TagSerializer, CategorySerializer, CommentSerializer, ContentSerializer
+from .serializers import ArticleSerializer, TagSerializer, CategorySerializer, CommentSerializer
 from article.models import Article, Category, Tags, Comment, Content
 
 
@@ -37,21 +37,14 @@ def article_detail_api_view(request, *args, **kwargs):
     article = get_object_or_404(Article, pk=kwargs['pk'])
     if request.method == 'POST':
         comment = CommentSerializer(data=request.data)
-        cid = request.GET.get('cid')
-        if comment.is_valid():
-            comment.save()
-            context = {
-                'comment': comment.data
-            }
-            return Response(context)
-    comments = Comment.objects.filter(article__id=article.id).order_by('-id')
-    content = Content.objects.filter(article__id=article.id)
+        comment.is_valid(raise_exception=True)
+        comment.save()
+        context = {
+            'comment': comment.data
+        }
+        return Response(context)
     article_serializer = ArticleSerializer(article)
-    comments_serializer = CommentSerializer(comments, many=True)
-    content_serializer = ContentSerializer(content, many=True)
     context = {
-        'article_serializer': article_serializer.data,
-        # 'content_serializer': content_serializer.data,
-        # 'comments_serializer': comments_serializer.data
+        'article_serializer': article_serializer.data
     }
     return Response(context)

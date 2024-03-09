@@ -51,7 +51,7 @@ class Content(models.Model):
 
 class Comment(models.Model):
 
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
     top_level_comment_id = models.IntegerField(null=True, blank=True)
     name = models.CharField(max_length=255)
