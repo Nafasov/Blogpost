@@ -27,6 +27,14 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'article', 'name', 'parent', 'top_level_comment_id', 'image', 'massage', 'created_date']
 
+    def create(self, validated_data):
+        cid = self.context['cid']
+        article_id = self.context['article_id']
+        validated_data['article_id'] = article_id
+        validated_data['parent_id'] = cid
+        print(validated_data)
+        return super().create(validated_data)
+
 
 class ContentSerializer(serializers.ModelSerializer):
 
