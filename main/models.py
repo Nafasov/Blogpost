@@ -3,7 +3,7 @@ from django.db import models
 
 class Contact(models.Model):
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='main/contact')
+    image = models.ImageField(upload_to='main/contact', null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     message = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)

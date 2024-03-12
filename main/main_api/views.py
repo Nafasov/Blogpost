@@ -1,3 +1,5 @@
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -26,6 +28,25 @@ def home_api_view(request):
     return Response(context)
 
 
+@swagger_auto_schema(
+    method='post',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'name': openapi.Schema(type=openapi.TYPE_STRING),
+            'email': openapi.Schema(type=openapi.TYPE_STRING),
+            'image': openapi.Schema(type=openapi.TYPE_FILE),
+            'message': openapi.Schema(type=openapi.TYPE_STRING),
+
+        },
+        required=['massage', 'name', 'image', 'email']
+    ),
+    responses={
+        200: 'Success',
+        400: 'Bad Request',
+    },
+    operation_id='custom_operation_id'
+)
 @api_view(['POST'])
 def contact_api_view(request):
     serializer = ContactSerializer(data=request.data)

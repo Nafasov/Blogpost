@@ -16,9 +16,15 @@ def article_list_api_view(request, *args, **kwargs):
     categories = Category.objects.all()
     articles = Article.objects.all().order_by('-id')
     q = request.GET.get('q')
+    tag = request.GET.get('tag')
+    category = request.GET.get('cat')
     if q:
         q = Q(title__icontains=q)
         articles = articles.filter(q).order_by('-id')
+    if tag:
+        articles = articles.filter(tags__name=tag).order_by('-id')
+    if category:
+        articles = articles.filter(articles__categories=category).order_by('-id')
     paginator = Paginator(articles, 6)
     page = request.GET.get('page')
     articles = paginator.get_page(page)
